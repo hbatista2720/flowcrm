@@ -11,7 +11,7 @@ import UserMenu from '@/components/auth/UserMenu'
 import WelcomeModal from '@/components/onboarding/WelcomeModal'
 import TemplateGallery from '@/components/templates/TemplateGallery'
 import ChatbotTester from '@/components/chatbot-test/ChatbotTester'
-import QRConnection from '@/components/whatsapp/QRConnection'
+import BaileysConnection from '@/components/whatsapp/BaileysConnection'
 import { getAllUserBots, createBotFromTemplate } from '@/lib/templates/templateActions'
 
 export default function DashboardPage({ searchParams }: { searchParams: { tab?: string } }) {
@@ -209,7 +209,7 @@ function WhatsAppSection() {
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Conexión WhatsApp</h1>
         <p className="text-gray-600">Conecta tu WhatsApp Business para recibir y enviar mensajes reales</p>
       </div>
-      <QRConnection botId="main" />
+      <BaileysConnection />
     </div>
   )
 }

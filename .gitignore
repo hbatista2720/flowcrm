@@ -35,3 +35,8 @@ next-env.d.ts
 
 # Prisma
 /prisma/migrations
+
+# WhatsApp Sessions
+.wwebjs_auth/
+auth_info/
+whatsapp-sessions/
