@@ -179,30 +179,18 @@ export default function QRConnection({ botId }: QRConnectionProps) {
       {status === 'connected' && (
         <div className="text-center">
           <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 mb-2">
             ¡WhatsApp conectado exitosamente! Tu bot ya puede recibir mensajes.
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+            <p className="text-blue-800 text-sm">
+              📝 <strong>Modo Demo:</strong> Esta es una simulación. Para conexión real, ejecuta localmente con <code>npm run dev</code>
+            </p>
+          </div>
           <div className="flex space-x-3 justify-center">
             <button
               onClick={async () => {
-                try {
-                  const response = await fetch('/api/whatsapp/send', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      to: 'tu-numero',
-                      message: '🤖 ¡Hola! Tu bot de FlowCRM está conectado y funcionando correctamente. ¡Mensaje de prueba exitoso! 🚀'
-                    })
-                  })
-                  
-                  if (response.ok) {
-                    alert('¡Mensaje de prueba enviado! 📱 Revisa tu WhatsApp.')
-                  } else {
-                    alert('Error al enviar mensaje. Verifica la conexión.')
-                  }
-                } catch (error) {
-                  alert('Error de conexión. Inténtalo de nuevo.')
-                }
+                alert('📱 Mensaje simulado enviado!\n\nPara enviar mensajes reales:\n1. Ejecuta: npm run dev\n2. Activa RealWhatsAppClient\n3. Conecta tu WhatsApp real')
               }}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center"
             >

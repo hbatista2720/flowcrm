@@ -68,9 +68,11 @@ class MockWhatsAppClient implements WhatsAppClient {
   }
 }
 
-// Cliente simulado (comentado)
-// export const whatsappClient = new MockWhatsAppClient()
+// Para desarrollo local: cambiar a RealWhatsAppClient
+// Para producción: usar MockWhatsAppClient
+export const whatsappClient = new MockWhatsAppClient()
 
-// Cliente real de WhatsApp
-import { RealWhatsAppClient } from './realClient'
-export const whatsappClient = new RealWhatsAppClient()
+// Instrucciones para conexión real:
+// 1. Ejecutar localmente: npm run dev
+// 2. Cambiar línea anterior por: new RealWhatsAppClient()
+// 3. El QR real aparecerá en desarrollo local
