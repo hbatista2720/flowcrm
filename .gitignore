@@ -40,3 +40,4 @@ next-env.d.ts
 .wwebjs_auth/
 auth_info/
 whatsapp-sessions/
+whatsapp-server/
