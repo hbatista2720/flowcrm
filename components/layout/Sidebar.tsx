@@ -44,16 +44,15 @@ const menuItems = [
     section: 'HERRAMIENTAS',
     items: [
       { id: 'analytics', label: 'Analytics', icon: BarChart3, href: '/dashboard/analytics' },
-      { id: 'calendar', label: 'Calendario', icon: Calendar, href: '/dashboard/calendar' },
-      { id: 'test', label: 'Probar IA', icon: Settings, href: '/dashboard?tab=test' },
-      { id: 'profile', label: 'Perfil', icon: User, href: '/dashboard/profile' }
+      { id: 'calendar', label: 'Calendario', icon: Calendar, href: '/dashboard/calendar' }
     ]
   },
   {
     section: 'SOPORTE',
     items: [
       { id: 'docs', label: 'Documentación', icon: FileText, href: '/dashboard/docs' },
-      { id: 'help', label: 'Ayuda', icon: HelpCircle, href: '/dashboard/help' }
+      { id: 'help', label: 'Ayuda', icon: HelpCircle, href: '/dashboard/help' },
+      { id: 'profile', label: 'Perfil', icon: User, href: '/dashboard/profile' }
     ]
   }
 ]

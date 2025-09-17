@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useSession, signOut } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { 
   User, 
   CreditCard, 
@@ -29,11 +29,21 @@ const menuItems = [
 ]
 
 export default function ProfileSidebar({ activeSection, onSectionChange }: ProfileSidebarProps) {
-  const { data: session } = useSession()
   const { theme } = useTheme()
+  const router = useRouter()
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  }, [])
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: '/' })
+    localStorage.removeItem('user')
+    localStorage.removeItem('isAuthenticated')
+    router.push('/login')
   }
 
   const getInitials = (name: string) => {
@@ -50,25 +60,17 @@ export default function ProfileSidebar({ activeSection, onSectionChange }: Profi
       {/* User Info */}
       <div className="p-6 border-b dark:border-gray-700">
         <div className="flex items-center">
-          {session?.user?.image ? (
-            <img
-              src={session.user.image}
-              alt={session.user.name || ''}
-              className="w-12 h-12 rounded-full"
-            />
-          ) : (
-            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-medium">
-                {getInitials(session?.user?.name || 'U')}
-              </span>
-            </div>
-          )}
+          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+            <span className="text-white font-medium">
+              {getInitials(user?.name || 'Admin FlowCRM')}
+            </span>
+          </div>
           <div className="ml-3">
             <h3 className="font-medium text-gray-900 dark:text-white">
-              {session?.user?.name}
+              {user?.name || 'Admin FlowCRM'}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {session?.user?.email}
+              {user?.email || 'admin@flowcrm.com'}
             </p>
           </div>
         </div>

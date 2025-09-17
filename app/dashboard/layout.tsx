@@ -1,94 +1,62 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Sidebar from '@/components/layout/Sidebar'
-import ThemeToggle from '@/components/layout/ThemeToggle'
-import TutorialBot from '@/components/tutorial-bot/TutorialBot'
+import { useState } from 'react'
+import { Bell } from 'lucide-react'
 import UserMenu from '@/components/auth/UserMenu'
-import { Bell, Bot } from 'lucide-react'
+import Sidebar from '@/components/layout/Sidebar'
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [showNotifications, setShowNotifications] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const user = localStorage.getItem('user')
-      const authStatus = localStorage.getItem('isAuthenticated')
-      
-      if (user && authStatus === 'true') {
-        setIsAuthenticated(true)
-      } else {
-        router.push('/login')
-        return
-      }
-      setLoading(false)
-    }
-
-    checkAuth()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="flex items-center justify-center mb-4">
-            <Bot className="h-16 w-16 text-blue-600 animate-pulse" />
-            <span className="ml-3 text-4xl font-bold text-gray-900">FlowCRM</span>
-          </div>
-          <p className="text-gray-600">Verificando autenticación...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return null
-  }
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-gray-50 flex">
       <Sidebar 
         isCollapsed={sidebarCollapsed} 
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
       />
       
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Header */}
-        <header className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 px-6 py-4">
+      <div className="flex-1 flex flex-col">
+        <header className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-              <p className="text-gray-600 dark:text-gray-400">Gestiona tu CRM de manera eficiente</p>
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+              <p className="text-gray-600">Gestiona tu CRM de manera eficiente</p>
             </div>
             
             <div className="flex items-center space-x-4">
-              <ThemeToggle />
-              <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="p-2 text-gray-400 hover:text-gray-600 relative"
+              >
                 <Bell className="h-5 w-5" />
+                <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
               </button>
+              
               <UserMenu />
             </div>
           </div>
+          
+          {showNotifications && (
+            <div className="absolute right-6 top-16 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+              <div className="p-4 border-b border-gray-200">
+                <h3 className="font-semibold text-gray-900">Notificaciones</h3>
+              </div>
+              <div className="p-4">
+                <p className="text-gray-600 text-sm">No hay notificaciones nuevas</p>
+              </div>
+            </div>
+          )}
         </header>
-
-        {/* Content Area */}
-        <main className="flex-1 overflow-auto p-6">
+        
+        <main className="flex-1 p-6">
           {children}
         </main>
       </div>
-
-      {/* Tutorial Bot */}
-      <TutorialBot />
     </div>
   )
 }

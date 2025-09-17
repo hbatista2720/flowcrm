@@ -68,9 +68,9 @@ class MockWhatsAppClient implements WhatsAppClient {
   }
 }
 
-// Cliente que usa servidor WhatsApp externo
-import { WebhookWhatsAppClient } from './webhookClient'
-export const whatsappClient = new WebhookWhatsAppClient()
+// Cliente que usa el servidor de WhatsApp real
+import { RealWhatsAppClient } from './realClient'
+export const whatsappClient = new RealWhatsAppClient()
 
 // Instrucciones para conexión real:
 // 1. Ejecutar localmente: npm run dev

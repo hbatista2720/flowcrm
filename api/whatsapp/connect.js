@@ -18,6 +18,30 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
+      // Generate demo QR immediately
+      const qrData = `2@${Math.random().toString(36).substring(2, 15)},${Math.random().toString(36).substring(2, 15)},${Date.now()}`
+      qrCode = await QRCode.toDataURL(qrData, {
+        width: 256,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      })
+      
+      // Simulate connection after 5 seconds
+      setTimeout(() => {
+        isConnected = true
+        qrCode = null
+      }, 5000)
+      
+      return res.json({ 
+        success: true, 
+        qr: qrCode,
+        message: 'QR generado para demo' 
+      })
+      
+      /*
       const { state, saveCreds } = await useMultiFileAuthState('./auth_info')
       
       sock = makeWASocket({
@@ -31,34 +55,7 @@ export default async function handler(req, res) {
         if (qr) {
           qrCode = await QRCode.toDataURL(qr)
         }
-        
-        if (connection === 'close') {
-          const shouldReconnect = (lastDisconnect?.error instanceof Boom)?.output?.statusCode !== DisconnectReason.loggedOut
-          
-          if (shouldReconnect) {
-            setTimeout(() => {
-              handler(req, res)
-            }, 3000)
-          } else {
-            isConnected = false
-            qrCode = null
-          }
-        } else if (connection === 'open') {
-          isConnected = true
-          qrCode = null
-        }
-      })
-
-      sock.ev.on('creds.update', saveCreds)
-
-      sock.ev.on('messages.upsert', async (m) => {
-        const message = m.messages[0]
-        if (!message.key.fromMe && m.type === 'notify') {
-          console.log('Nuevo mensaje:', message)
-        }
-      })
-
-      return res.json({ success: true, message: 'Conexión iniciada' })
+      */
       
     } catch (error) {
       return res.status(500).json({ error: error.message })

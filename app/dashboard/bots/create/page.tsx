@@ -14,11 +14,11 @@ export default function CreateBotPage() {
 
   const handleSelectTemplate = (template: BotTemplate) => {
     console.log('Creando bot con plantilla:', template)
-    router.push(`/dashboard/bots/new?template=${template.id}`)
+    router.push(`/dashboard/bots/1?template=${template.id}`)
   }
 
   const handleCreateFromScratch = () => {
-    router.push('/dashboard/bots/new')
+    router.push('/dashboard/bots/1')
   }
 
   return (
