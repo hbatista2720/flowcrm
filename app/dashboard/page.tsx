@@ -11,6 +11,7 @@ import UserMenu from '@/components/auth/UserMenu'
 import WelcomeModal from '@/components/onboarding/WelcomeModal'
 import TemplateGallery from '@/components/templates/TemplateGallery'
 import ChatbotTester from '@/components/chatbot-test/ChatbotTester'
+import QRConnection from '@/components/whatsapp/QRConnection'
 import { getAllUserBots, createBotFromTemplate } from '@/lib/templates/templateActions'
 
 export default function DashboardPage({ searchParams }: { searchParams: { tab?: string } }) {
@@ -23,6 +24,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { tab?: 
         <nav className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
           {[
             { id: 'bots', label: 'Bots', icon: Bot },
+            { id: 'whatsapp', label: 'WhatsApp', icon: MessageSquare },
             { id: 'flows', label: 'Automatizaciones', icon: BarChart3 },
             { id: 'inbox', label: 'Inbox', icon: MessageSquare },
             { id: 'pipeline', label: 'Pipeline', icon: Users },
@@ -50,6 +52,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { tab?: 
       {/* Content Area */}
       <div className="h-full">
         {activeTab === 'bots' && <BotsSection />}
+        {activeTab === 'whatsapp' && <WhatsAppSection />}
         {activeTab === 'flows' && <FlowsSection />}
         {activeTab === 'inbox' && <InboxSection />}
         {activeTab === 'pipeline' && <PipelineSection />}
@@ -195,6 +198,18 @@ function PipelineSection() {
     <div className="h-full">
       <LeadStats />
       <NotionKanban />
+    </div>
+  )
+}
+
+function WhatsAppSection() {
+  return (
+    <div className="h-full">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Conexión WhatsApp</h1>
+        <p className="text-gray-600">Conecta tu WhatsApp Business para recibir y enviar mensajes reales</p>
+      </div>
+      <QRConnection botId="main" />
     </div>
   )
 }

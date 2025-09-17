@@ -68,4 +68,9 @@ class MockWhatsAppClient implements WhatsAppClient {
   }
 }
 
-export const whatsappClient = new MockWhatsAppClient()
+// Cliente simulado (comentado)
+// export const whatsappClient = new MockWhatsAppClient()
+
+// Cliente real de WhatsApp
+import { RealWhatsAppClient } from './realClient'
+export const whatsappClient = new RealWhatsAppClient()

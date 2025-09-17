@@ -27,18 +27,8 @@ export default function QRConnection({ botId }: QRConnectionProps) {
       
       if (data.success) {
         setStatus('waiting_qr')
-        // Simular QR y conexión
-        setTimeout(() => {
-          const qrData = `2@${Math.random().toString(36).substr(2, 20)},${Date.now()}`
-          setQrCode(`https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(qrData)}`)
-          setStatus('waiting_qr')
-        }, 2000)
-        
-        // Simular conexión exitosa
-        setTimeout(() => {
-          setStatus('connected')
-          setQrCode('')
-        }, 15000)
+        // Polling para obtener QR real
+        pollForQR()
       } else {
         setError(data.error)
         setStatus('disconnected')
@@ -47,6 +37,34 @@ export default function QRConnection({ botId }: QRConnectionProps) {
       setError('Error de conexión')
       setStatus('disconnected')
     }
+  }
+
+  const pollForQR = async () => {
+    const interval = setInterval(async () => {
+      try {
+        const qrResponse = await fetch('/api/whatsapp/qr')
+        const qrData = await qrResponse.json()
+        
+        if (qrData.success && qrData.qrImage) {
+          setQrCode(qrData.qrImage)
+        }
+        
+        // Verificar si ya está conectado
+        const statusResponse = await fetch('/api/whatsapp/connect')
+        const statusData = await statusResponse.json()
+        
+        if (statusData.connected) {
+          setStatus('connected')
+          setQrCode('')
+          clearInterval(interval)
+        }
+      } catch (error) {
+        console.error('Error polling QR:', error)
+      }
+    }, 2000)
+    
+    // Limpiar interval después de 2 minutos
+    setTimeout(() => clearInterval(interval), 120000)
   }
 
   const disconnect = async () => {

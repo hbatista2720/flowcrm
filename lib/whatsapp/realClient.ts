@@ -1,7 +1,4 @@
 // Cliente WhatsApp real con whatsapp-web.js
-// Descomenta para usar conexión real
-
-/*
 import { Client, LocalAuth, Message } from 'whatsapp-web.js'
 import { WhatsAppClient, WhatsAppMessage } from './client'
 
@@ -16,10 +13,10 @@ export class RealWhatsAppClient implements WhatsAppClient {
   constructor() {
     this.client = new Client({
       authStrategy: new LocalAuth({
-        dataPath: './whatsapp-session'
+        dataPath: './whatsapp-sessions'
       }),
       puppeteer: {
-        headless: false, // Ver navegador para debug
+        headless: true, // Sin navegador visible en producción
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -116,10 +113,6 @@ export class RealWhatsAppClient implements WhatsAppClient {
     this.readyCallback = callback
   }
 }
-
-// Para usar cliente real, reemplazar en client.ts:
-// export const whatsappClient = new RealWhatsAppClient()
-*/
 
 export const setupRealWhatsApp = () => {
   console.log('Para usar WhatsApp real:')
