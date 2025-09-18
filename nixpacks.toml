@@ -6,6 +6,9 @@ aptPkgs = [
 
 [phases.build]
 commands = [
-  "until pg_isready -h postgres.railway.internal -p 5432 -U postgres; do echo 'Waiting for PostgreSQL...'; sleep 5; done",
-  "npm run build" # This will now run after the DB is ready
+  "set -ex", # Exit immediately if a command exits with a non-zero status.
+  "echo 'Starting PostgreSQL wait loop...'",
+  "until pg_isready -h postgres.railway.internal -p 5432 -U postgres -t 10; do echo 'PostgreSQL not ready yet, waiting 10 seconds...'; sleep 10; done",
+  "echo 'PostgreSQL is ready. Proceeding with npm run build.'",
+  "npm run build"
 ]
